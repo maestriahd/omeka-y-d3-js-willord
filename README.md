@@ -37,6 +37,7 @@ La actividad a realizar durante esta semana es la creación de nuevas rutas y vi
 
 ### Básico
 * [MDN - HTML](https://developer.mozilla.org/en-US/docs/Web/HTML) ***Documentación de HTML en la red de desarrollo de Mozilla***
+* [handlebars (HBS)](http://handlebarsjs.com/) ***Herramienta que usamos para la construcción de templates (vistas)***
 * [Building a Website with Node.js and Express.js ](https://www.lynda.com/Express-js-tutorials/Welcome/163094/179059-4.html?autoplay=true) ***Curso en Lynda sobre el desarrollo de aplicaciones web usando Expressjs***
 * [Unix for Mac OS X Users
  ](https://www.lynda.com/Mac-OS-X-tutorials/Moving-around-filesystem/78546/83620-4.html?autoplay=true) ***Curso en Lynda sobre el uso del terminal en Mac***
