@@ -1,0 +1,15 @@
+<h1>Ejemplo de coneccion a OMEKA</h1>
+
+<!-- recorre todos los campos de los items para extraer el nombre -->
+{{#each item.element_texts}}
+    <h1>{{this.text}}</h1>
+{{/each}}
+
+<h2>Colección</h2>
+<!-- muestra la información de las colecciones -->
+{{#each collection.element_texts}}
+    <h1>{{this.text}}</h1>
+{{/each}}
+
+<!-- muestra la imágen en miniatura del elemento -->
+<img src="{{files.0.file_urls.thumbnail}}" alt="">
