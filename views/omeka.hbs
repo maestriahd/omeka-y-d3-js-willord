@@ -13,3 +13,24 @@
 
 <!-- muestra la imágen en miniatura del elemento -->
 <img src="{{files.0.file_urls.thumbnail}}" alt="">
+
+
+<h1>TODOS LOS ITEMS</h1>
+<!-- recorre todos los elementos -->
+{{#each items}}
+  <!-- recorre la lista de textos -->
+  {{#each this.element_texts}}
+    <!-- si el texto es 'Title' -->
+      {{#ifeq this.element.name 'Title'}}
+        <h4>{{this.text}}</h4>
+      {{/ifeq}}
+    <!-- si el texto es 'Subject' -->
+      {{#ifeq this.element.name 'Subject'}}
+        <p>subject: {{this.text}}</p>
+      {{/ifeq}}
+    <!-- si el texto es 'Description' -->
+      {{#ifeq this.element.name 'Description'}}
+        <p>des: {{this.text}}</p>
+      {{/ifeq}}
+  {{/each}}
+{{/each}}
