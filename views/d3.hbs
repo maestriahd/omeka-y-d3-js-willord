@@ -57,13 +57,33 @@ function viz(data){
 // Rutina para hacer la petición al servidor de Omeka
 // 1. crea una nueva instancia de XMLHttpRequest
 var request = new XMLHttpRequest();
-var baseUrl = '' //la URL del API (http://miomeka.org/api)
+// variables para construir la URL final para donde se hace la petición
+// servidor proxy para souclionar problemas de CORS (ver README)
+var CORS_PROXY = 'http://192.169.250.12:8088/';
+// usa el proxy?
+var use_cors = false;
+//la URL del API (http://miomeka.org/api)
+var baseUrl = ''
+// el key generado por omeka
 var API_KEY = ''
+
+// comstruye la URL final a partir de los datos suministrados anteriormente
+var URL = '' // variable donde se guardará la URL final
+// Si va a usar el proxy
+if (use_cors){
+  // concatena todas las variables
+  // http://192.169.250.12:8088/http://miomeka.org/api/collections?key=API_KEY
+  URL = CORS_PROXY+baseUrl+'/collections?key='+API_KEY
+// si no usa el proxy
+} else {
+  // concatena todas las variables
+  // http://miomeka.org/api/collections?key=API_KEY
+  URL = baseUrl+'/collections?key='+API_KEY
+}
+
 // 2. abre una conexión al servidor usando el método GET
 // la URL debe estar construida así:
-// http://miomeka.org/api/collections?key=API_KEY
-// para acceder a las colecciones
-request.open('GET', baseUrl+'collections?key='+API_KEY, true);
+request.open('GET', URL, true);
 
 // cuando se ejecuta la conexión con el servidor y obtenemos respuesta
 request.onload = function() {
