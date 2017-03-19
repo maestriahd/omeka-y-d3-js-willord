@@ -1,4 +1,11 @@
-<h1>D3</h1>
+<h1>VISUALIZACION DE ARCHIVOS: OMEKA</h1>
+
+<br>
+<br>
+<br>
+<br>
+
+<h2>Cantidad de items en Colecciones visualizados como circulos</h2>
 
 <!-- div donde se inyectará la visualizción de D3js -->
 <div id="viz"></div>
@@ -16,8 +23,8 @@ function viz(data){
   // selecciona la división donde se inyectará el SVG
   var svg = d3.select('#viz')
     .append('svg') // agrega un elemento SVG
-    .attr('width', 400) // al SVG le agrega el atributo ancho de 400px
-    .attr('height', 200) // al SVG le agrega el atributo alto de 200px
+    .attr('width', 700) // al SVG le agrega el atributo ancho de 400px
+    .attr('height', 247) // al SVG le agrega el atributo alto de 200px
 
   var elem = svg.selectAll('g') // selecciona todos los elementos `g` (grupos)
     .data(data) // enlaza los datos del servidor
@@ -25,34 +32,39 @@ function viz(data){
   var elemEnter = elem.enter()
       .append('g') // agrega un grupo
       .attr('transform', function(d,i){ // aplica una transformación al elemento
-        return "translate("+(80*i+40)+", 80)" // calcula la posción relativo a
+        return "translate("+(200*i+100)+", 123)" // calcula la posción relativo a
                                               // los datos
       })
 
   var circulo = elemEnter.append('circle') // agrega un circulo
+
     .attr('stroke', 'black') // la línea de contorno será negra
     .attr('fill', function(d){ // el color de relleno se aplica según el
                                // resultado de esta función
-      if(d.public){     // si el elemento actual es público
-        return 'green'  // el color de relleno será verde
-      } else {          // de lo contrario (será público)
-        return 'red'    // el color de relleno será rojo
-      }
+      if(d.id==1){
+        return 'green'  // el verde identifica a la primera colección
+      } else if(d.id==2) {
+        return 'blue'    // el azul identifica a la segunda colección
+      } else {return 'red'} // el rojo identifica a la tercera colección
     })
 
     .attr('r', function(d){ // el radio dependerá de la cantidad de items en la
-      return d.items.count * 10 // colección
+      return d.items.count * 10  // colección
     })
 
   // crea los textos etiquetando cada uno de los círculos
   var txt = elemEnter.append('text') //agrega un elemento de tipo text
-    .attr('dy', -35) // la posición en y
-    .attr('dx', -20) // la posición en x
+    .attr('dy', -70) // la posición en y
+    .attr('dx', -40) // la posición en x
     .text(function(d){ // extrae el texto de la información del servidor
       return d.element_texts[0].text
     })
 
 }
+
+
+
+
 
 // Rutina para hacer la petición al servidor de Omeka
 // 1. crea una nueva instancia de XMLHttpRequest
@@ -61,11 +73,11 @@ var request = new XMLHttpRequest();
 // servidor proxy para souclionar problemas de CORS (ver README)
 var CORS_PROXY = 'http://192.169.250.12:8088/';
 // usa el proxy?
-var use_cors = false;
+var use_cors = true;
 //la URL del API (http://miomeka.org/api)
-var baseUrl = ''
+var baseUrl = 'http://biblicallanguages.omeka.net/api'
 // el key generado por omeka
-var API_KEY = ''
+var API_KEY ='c0021596e25c13b4896e8efc52ee7cfc93687607'
 
 // comstruye la URL final a partir de los datos suministrados anteriormente
 var URL = '' // variable donde se guardará la URL final
@@ -93,6 +105,8 @@ request.onload = function() {
     var resp = JSON.parse(request.responseText);
     // ejecuta la función de visualizacion
     viz(resp)
+    visualbarCol(resp)
+    console.log(resp)
   } else {
     // si hay un error en la conexión, escribe en la consola el error
     console.log('ups! tenemos un error', request.status)
@@ -107,4 +121,162 @@ request.onerror = function() {
 // hace la petición al servidor
 request.send();
 
+var requestItem = new XMLHttpRequest();
+var CORS_PROXY = 'http://192.169.250.12:8088/';
+var baseUrl = 'http://biblicallanguages.omeka.net/api/'
+var API_KEY ='c0021596e25c13b4896e8efc52ee7cfc93687607'
+var URL=''
+  URL = CORS_PROXY+baseUrl+'/items?collection='//+API_KEY
+  requestItem.open('GET', URL, true);
+
+  requestItem.onload = function() {
+    if (requestItem.status >= 200 && requestItem.status < 400) {
+      var respItem = JSON.parse(requestItem.responseText);
+      visual(respItem)
+      visualbar(respItem)
+      console.log(respItem)
+    } else {
+      console.log('ups! tenemos un error', requestItem.status)
+    }
+  };
+
+  requestItem.onerror = function() {
+    console.log('Error!!')
+  };
+  requestItem.send();
+</script>
+
+
+
+
+<h2>Cantidad de archivos en Items visualizados como círculos</h2>
+<div id="visual"></div>
+<script type="text/javascript">
+
+function visual(dataItem){
+  var svg = d3.select('#visual')
+    .append('svg') // agrega un elemento SVG
+    .attr('width', 300)
+    .attr('height', 500)
+
+    var elem = svg.selectAll('g')
+      .data(dataItem)
+
+      var elemEnter = elem.enter()
+          .append('g') // agrega grupo para visualizar items
+          .attr('transform', function(d,i){
+            return "translate(50,"+(50*i+50)+")"
+          })
+
+var circulo = elemEnter.append('circle') // agrega un circulo
+.attr('stroke', 'black') // la línea de contorno será negra
+.attr('fill',function (d){
+if(d.collection.url=="http://biblicallanguages.omeka.net/api/collections/1"){
+
+  return 'green'
+}else if(d.collection.url=="http://biblicallanguages.omeka.net/api/collections/2")
+{return 'blue'} else{return 'red'}
+
+})
+
+.attr('r', function(d){ // el radio dependerá de la cantidad de items en la
+  return d.files.count   // colección
+})
+
+var txt = elemEnter.append('text') //agrega un elemento de tipo text
+  .attr('dy',0) // la posición en y
+  .attr('dx',30) // la posición en x
+  .text(function(d){ // extrae el texto de la información del servidor
+    return d.element_texts[0].text+"="+d.files.count
+  })
+}
+</script>
+
+
+
+<h2>Cantidad de Items en Colecciones visualizados en barras</h2>
+<div id="visualbarCol"></div>
+<script type="text/javascript">
+function visualbarCol(data){
+
+  var svg = d3.select('#visualbarCol')
+    .append('svg') // agrega un elemento SVG
+    .attr('width', 200)
+    .attr('height', 100)
+
+    var elem = svg.selectAll('g')
+      .data(data)
+
+      var elemEnter = elem.enter()
+          .append('g') // agrega grupo para visualizar items
+          .attr('transform', function(d,i){
+            return "translate("+(50*i+50)+",0)"
+          })
+
+var bar = elemEnter.append('rect')
+.attr("x",0)
+.attr("y",0)
+.attr("fill",function (d){
+  if(d.id==1){
+    return 'green'  // el verde identifica a la primera colección
+  } else if(d.id==2) {
+    return 'blue'    // el azul identifica a la segunda colección
+  } else {return 'red'} // el rojo identifica a la tercera colección
+})
+
+.attr("width",30)
+.attr("height",function(d){return d.items.count*(2)})
+
+var txt = elemEnter.append('text') //agrega un elemento de tipo text
+  .attr('dy',40) // la posición en y
+  .attr('dx',5) // la posición en x
+  .text(function(d){ // extrae el texto de la información del servidor
+    return d.items.count
+  })
+}
+</script>
+
+
+
+<h2>Cantidad de archivos en los Items visualizados en barras</h2>
+<div id="visualbar"></div>
+<script type="text/javascript">
+function visualbar(dataItem){
+
+  var svg = d3.select('#visualbar')
+    .append('svg') // agrega un elemento SVG
+    .attr('width', 500)
+    .attr('height', 300)
+
+    var elem = svg.selectAll('g')
+      .data(dataItem)
+
+      var elemEnter = elem.enter()
+          .append('g') // agrega grupo para visualizar items
+          .attr('transform', function(d,i){
+            return "translate("+(50*i+50)+",0)"
+          })
+
+var bar = elemEnter.append('rect')
+.attr("x",0)
+.attr("y",0)
+.attr("fill",function (d){
+  if(d.collection.url=="http://biblicallanguages.omeka.net/api/collections/1"){
+
+    return 'green'
+  }else if(d.collection.url=="http://biblicallanguages.omeka.net/api/collections/2")
+  {return 'blue'} else{return 'red'}
+
+  })
+
+.attr("width",30)
+.attr("height",function(d){return d.files.count*(2)})
+
+var txt = elemEnter.append('text') //agrega un elemento de tipo text
+  .attr('dy',70) // la posición en y
+  .attr('dx',5) // la posición en x
+  .text(function(d){ // extrae el texto de la información del servidor
+    return d.files.count
+  })
+}
 </script>
