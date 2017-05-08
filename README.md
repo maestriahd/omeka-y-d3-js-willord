@@ -44,9 +44,11 @@ Para la actividad de esta semana hay dos formas de enfrentarse a este problema, 
 
 |  Criterio  | %      |  Calificación |
 |----------|:-------------:|------:|
-| Redacción, ortografía, citación de fuentes |  40% | - |
-| Suficiencia en la implementación técnica D3.js |    60%   | - |
-| ** Nota Final** | | -|
+| Redacción, ortografía, citación de fuentes |  40% | 4.5 |
+| Suficiencia en la implementación técnica D3.js |    60%   | 4.5 |
+| ** Nota Final** | | 4.5 |
+
+My buena entrega. Muy buena exploración de las posibilidades de visualzación de datos usando d3.
 
 ## Recursos
 
